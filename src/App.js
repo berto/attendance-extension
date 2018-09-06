@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Drawer, Button, Icon } from 'antd';
+import { Drawer, Icon } from 'antd';
 import './App.css';
+import Attendance from './components/Attendance';
 
 class App extends Component {
   state = { visible: false, placement: 'left' };
@@ -27,9 +28,7 @@ class App extends Component {
           closable={false}
           onClose={this.onClose}
           visible={this.state.visible}>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
+          <Attendance />
         </Drawer>
       </div>
     );
