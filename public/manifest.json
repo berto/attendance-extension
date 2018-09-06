@@ -1,0 +1,12 @@
+{
+  "short_name": "AEx",
+  "name": "Attendance Extension",
+  "version": "0.0.1",
+  "permissions": ["storage"],
+  "background": {
+    "persistent": false,
+    "scripts": ["background.js"]
+  },
+  "permissions": ["https://learn-2.galvanize.com/*"],
+  "manifest_version": 2
+}

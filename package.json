@@ -1,0 +1,21 @@
+{
+  "name": "attendance-extension",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "antd": "^3.9.1",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-scripts": "1.1.5"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "eject": "react-app-rewired eject"
+  },
+  "devDependencies": {
+    "react-app-rewired": "^1.6.2",
+    "write-file-webpack-plugin": "^4.4.0"
+  }
+}

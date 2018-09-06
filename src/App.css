@@ -1,0 +1,18 @@
+.open {
+  position: absolute;
+  bottom: 2em;
+  left: 0.5em;
+  z-index: 1;
+}
+
+.open:hover {
+  cursor: pointer;
+}
+
+.primary-navigation, .secondary-navigation {
+  z-index: 2;
+}
+
+.ant-drawer.ant-drawer-left.ant-drawer-open {
+  z-index: 3;
+}
