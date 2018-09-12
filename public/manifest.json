@@ -2,11 +2,11 @@
   "short_name": "AEx",
   "name": "Attendance Extension",
   "version": "0.0.1",
-  "permissions": ["storage"],
   "background": {
     "persistent": false,
     "scripts": ["background.js"]
   },
-  "permissions": ["https://learn-2.galvanize.com/*"],
+  "permissions": ["https://learn-2.galvanize.com/*", "storage"],
+  "content_security_policy": "script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
   "manifest_version": 2
 }

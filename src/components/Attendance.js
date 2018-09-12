@@ -1,46 +1,53 @@
-import React, { Component } from 'react';
-import { List, Menu, Dropdown, Button, Icon } from 'antd';
-import './Attendance.css';
-
-const students = [
-  { name: 'Jimmy Jimbo', absences: 0 },
-  { name: 'Tom Tombo', absences: 3 },
-  { name: 'Rob Rumbo', absences: 1 }
-];
+import React, { Component } from 'react'
+import { List } from 'antd'
+import Cohorts from './Cohorts'
+import db from '../firebase.js'
 
 class Attendance extends Component {
-  state = { cohort: 'All Students' };
-
-  onClick = ({ key }) => {
-    this.setState({
-      cohort: key,
-    });
+  state = { 
+    students: { all: [] },
+    loading: true,
+    error: "",
+    selectedCohort: "all"
   }
 
-  menu = (
-    <Menu onClick={this.onClick}>
-      <Menu.Item key="All Students">All Students</Menu.Item>
-      <Menu.Item key="g99">g99</Menu.Item>
-      <Menu.Item key="g102">g102</Menu.Item>
-      <Menu.Item key="g90">g90</Menu.Item>
-    </Menu>
-  )
+  componentDidMount() {
+    db.getStudents()
+      .then(students => this.setState({ students, loading: false }))
+      .catch(error => this.setState({ error, loading: false}))
+  }
+
+  handleDropdown = ({ key }) => {
+    this.setState({
+      selectedCohort: key,
+    })
+  }
 
   render() {
-    return (
-      <div>
-        <Dropdown overlay={this.menu}>
-          <Button className="ant-dropdown-link">
-            {this.state.cohort} <Icon type="down" className="cohorts-dropdown" />
-          </Button>
-        </Dropdown>
-        <List
-          size="small"
-          bordered
-          dataSource={students}
-          renderItem={student => (<List.Item>{student.name} - {student.absences}</List.Item>)}/>
-      </div>
-    )
+    return this.state.loading ?
+        (
+          <div>
+            <h2>LOADING...</h2>
+            <p>check the console if it takes too long</p>
+          </div>
+        ) 
+        : 
+        (
+          <div>
+            <h6>{this.state.error}</h6>
+            <Cohorts menu={this.state.students} selected={this.state.selectedCohort} handler={this.handleDropdown}/>
+            <List
+              size="small"
+              bordered
+              dataSource={this.state.students[this.state.selectedCohort]}
+              renderItem={student => (
+                <List.Item 
+                  className={student.total > 9 ? student.total > 18 ? 'bad' : 'ok' : 'good'}>
+                  {student.name} - {student.total}
+                </List.Item>
+              )}/>
+          </div>
+        )
   }
 }
 

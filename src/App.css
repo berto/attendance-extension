@@ -16,3 +16,24 @@
 .ant-drawer.ant-drawer-left.ant-drawer-open {
   z-index: 3;
 }
+
+.ant-list {
+  margin-top: 1em;
+}
+
+.cohorts-dropdown svg {
+  width: 15px;
+  height: 15px;
+}
+
+.good {
+  background-color: #F2FFF4;
+}
+
+.ok {
+  background-color: #EAE151;
+}
+
+.bad {
+  background-color: #F9627D;
+}
