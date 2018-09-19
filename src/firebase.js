@@ -23,7 +23,7 @@ const db = {
 function parseData(students) {
   return Object.keys(students).reduce((attendance, id) => {
     const currentCohort = students[id].cohort
-    const student = { name: students[id].name, total: students[id].total}
+    const student = { name: students[id].name, total: students[id].total, unexcused: students[id].unexcused}
     attendance.all.push(student)
     if (currentCohort) {
       attendance[currentCohort] = attendance[currentCohort] || []

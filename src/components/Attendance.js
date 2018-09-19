@@ -42,8 +42,12 @@ class Attendance extends Component {
               dataSource={this.state.students[this.state.selectedCohort]}
               renderItem={student => (
                 <List.Item 
-                  className={student.total > 9 ? student.total > 18 ? 'bad' : 'ok' : 'good'}>
-                  {student.name} - {student.total}
+                  className={student.total > 20 || student.unexcused > 10 ? student.total > 40 || student.unexcused > 15 ? 'bad' : 'ok' : 'good'}>
+                  {student.name} 
+                  <br/>
+                  total: {student.total} 
+                  <br />
+                  unexcused: {student.unexcused}
                 </List.Item>
               )}/>
           </div>
