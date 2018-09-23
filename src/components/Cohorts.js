@@ -5,7 +5,7 @@ const Cohorts = (props) => {
   const menu = (
     <Menu onClick={props.handler}>
       {
-        Object.keys(props.menu).map(cohort => (
+        props.menu.map(cohort => (
           <Menu.Item key={cohort}>{cohort}</Menu.Item>
         ))
       }

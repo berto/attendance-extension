@@ -1,92 +1,82 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { List } from 'antd'
 
-class Student extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      student: props.student,
-      editTotal: false,
-      editUnexcused: false
-    }
-  }
+const Student = (props) => {
 
-  editTotal = (toggle, toFalse) => {
-    this.setState({
-      [toggle]: !this.state[toggle],
+  const editTotal = (toggle, toFalse) => {
+    props.updateStudentProps(props.student.id, {
+      [toggle]: !props.student[toggle],
       [toFalse]: false
     })
   }
 
-  updateValue = (value, total) => {
-    this.setState((state) => {
-      state.student[total] = value
-      return state
+  const updateValue = (value, total) => {
+    props.updateStudentProps(props.student.id, {
+      [total]: value
     })
   }
 
-  handleKeyPress = async (event, student, key, total) => {
-    if (event.key === 'Enter') {
-      const ok = await this.props.updateStudent(student.id, key, total) 
-      if (ok) {
-        this.setState({
-          editTotal: false,
-          editUnexcused: false
-        })
-      } else {
-        this.props.displayError('unable to update')
-      }
+  const handleKeyPress = (event, id, key, total) => {
+    if (total && event.key === 'Enter') {
+      props.updateStudent(id, key, total) 
     } 
   }
 
-  handleBlur = () => {
-    this.setState({
+  const handleBlur = () => {
+    props.updateStudentProps(props.student.id, {
+      tempTotal: props.student.total,
+      tempUnexcused: props.student.unexcused,
       editTotal: false,
       editUnexcused: false
     })
   }
+  
+  const total = props.student.tempTotal
+  const unexcused = props.student.tempUnexcused
 
-  render() {
-    const total = this.props.student.total
-    const unexcused = this.props.student.unexcused
-    return (
-      <List.Item 
-        className={total > 20 || unexcused > 10 ? total > 40 || unexcused > 15 ? 'bad' : 'ok' : 'good'}>
-        <p>{this.props.student.name}</p>
-        <p>{this.state.error}</p>
-        <div>
-        <label htmlFor="total"> total : </label>
-          {
-            this.state.editTotal
-            ? <input 
-                className="total" 
-                type="number" 
-                id="total" 
-                value={total} 
-                onBlur={this.handleBlur}
-                onKeyDown={(event) => this.handleKeyPress(event, this.props.student, "total", total)}
-                onChange={event => this.updateValue(event.target.value, "total")}/> 
-            : <span onDoubleClick={() => this.editTotal("editTotal", "editUnexcused")} className="total">{total} </span> 
-          }
-        </div>
-        <div>
-          <label htmlFor="unexcused"> Unexcused : </label>
-          {
-            this.state.editUnexcused
-            ? <input 
-                className="total"  
-                type="number" 
-                id="unexcused"
-                value={unexcused} 
-                onBlur={this.handleBlur}
-                onKeyPress={(event) => this.handleKeyPress(event, this.props.student, "unexcused", unexcused)}
-                onChange={event => this.updateValue(event.target.value, "unexcused")} /> 
-            : <span onDoubleClick={(event) => this.editTotal("editUnexcused", "editTotal")} className="total">{unexcused} </span> 
-          }
-        </div>
-      </List.Item>
-    )
-  }
+  return (
+    <List.Item 
+      className={total > 20 || unexcused > 10 ? total > 40 || unexcused > 15 ? 'bad' : 'ok' : 'good'}>
+      <p>
+        { 
+          props.student.number
+          ? `${props.student.number} - `
+          : ""
+        }
+        { props.student.name }
+      </p>
+      <div>
+      <label htmlFor="total"> total : </label>
+        {
+          props.student.editTotal
+          ? <input 
+              className="total" 
+              type="number" 
+              id="total" 
+              value={total} 
+              onBlur={this.handleBlur}
+              onKeyDown={(event) => handleKeyPress(event, props.student.id, "total", total)}
+              onChange={event => updateValue(event.target.value, "tempTotal")}/> 
+          : <span onDoubleClick={() => editTotal("editTotal", "editUnexcused")} className="total">{total} </span> 
+        }
+      </div>
+      <div>
+        <label htmlFor="unexcused"> Unexcused : </label>
+        {
+          props.student.editUnexcused
+          ? <input 
+              className="total"  
+              type="number" 
+              id="unexcused"
+              value={unexcused} 
+              onBlur={handleBlur}
+              onKeyPress={(event) => handleKeyPress(event, props.student.id, "unexcused", unexcused)}
+              onChange={event => updateValue(event.target.value, "tempUnexcused")} /> 
+          : <span onDoubleClick={(event) => editTotal("editUnexcused", "editTotal")} className="total">{unexcused} </span> 
+        }
+      </div>
+    </List.Item>
+  )
 }
 
 export default Student;

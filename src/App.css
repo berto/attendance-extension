@@ -43,6 +43,10 @@
   background-color: #F9627D;
 }
 
+.error {
+  color: #F9627D;
+}
+
 input.total {
   width: 20%;
 }

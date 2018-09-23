@@ -27,14 +27,16 @@ const db = {
 function parseData(students) {
   return Object.keys(students).reduce((attendance, id) => {
     const currentCohort = students[id].cohort
-    const student = { id, name: students[id].name, total: students[id].total, unexcused: students[id].unexcused}
-    attendance.all.push(student)
-    if (currentCohort) {
-      attendance[currentCohort] = attendance[currentCohort] || []
-      attendance[currentCohort].push(student)
+    if (typeof students[id] === 'object') {
+      students[id].id = id
+      delete students[id].dates
+      attendance.students.push(students[id])
+      if (currentCohort && attendance.cohorts.indexOf(currentCohort) < 0) {
+        attendance.cohorts.push(currentCohort)
+      }
     }
     return attendance 
-  }, { all: [] })
+  }, { students: [], cohorts: ['all'] })
 }
 
 export default db
