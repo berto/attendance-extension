@@ -11,19 +11,23 @@ const config = {
 firebase.initializeApp(config);
 
 const db = {
-  getStudents() {
-    return firebase.database().ref('students')
-      .once('value')
-      .then(snapshot => snapshot.val())
-      .then(parseData)
-      .catch(error => error)
+  getStudents: async () => {
+    const snapshot = await firebase.database().ref('students').once('value')
+    return parseData(snapshot.val())
+  },
+  updateStudent: async (id, key, total) => {
+    const studentRef = await firebase.database().ref(`/students/${id}`)
+    const snapshot = await studentRef.once('value')
+    const student = snapshot.val()
+    student[key] = total
+    await studentRef.set(student)
   }
 }
 
 function parseData(students) {
   return Object.keys(students).reduce((attendance, id) => {
     const currentCohort = students[id].cohort
-    const student = { name: students[id].name, total: students[id].total, unexcused: students[id].unexcused}
+    const student = { id, name: students[id].name, total: students[id].total, unexcused: students[id].unexcused}
     attendance.all.push(student)
     if (currentCohort) {
       attendance[currentCohort] = attendance[currentCohort] || []

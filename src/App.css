@@ -17,6 +17,11 @@
   z-index: 3;
 }
 
+.ant-list-item-content.ant-list-item-content-single {
+  display: flex;
+  flex-direction: column;
+}
+
 .ant-list {
   margin-top: 1em;
 }
@@ -36,4 +41,8 @@
 
 .bad {
   background-color: #F9627D;
+}
+
+input.total {
+  width: 20%;
 }
